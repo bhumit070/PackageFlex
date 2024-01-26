@@ -2,7 +2,6 @@ const textToReplace = 'npm i'
 
 chrome.runtime.onMessage.addListener(
 	function (request, sender, sendResponse) {
-		console.log("Message received in content script:", request);
 		setTimeout(replaceCopyElement, 0)
 	}
 );
@@ -107,7 +106,6 @@ function replaceCopyElement(isFirstCall = false) {
 		}
 		parentElementOfCopyElement.remove()
 	} else {
-		console.log(allCopyElements.length)
 		for (let i = 0; i < allCopyElements.length; i += 1) {
 			const element = allCopyElements[i].parentElement.parentElement
 			const updatedElement = changeText(element, packageName)
