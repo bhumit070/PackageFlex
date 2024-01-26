@@ -63,7 +63,16 @@ function addCustomCopyButton(htmlElement) {
 		window.getSelection().addRange(range);
 		document.execCommand("copy");
 		window.getSelection().removeAllRanges();
-		window.alert(`Copied -> ${codeElement.textContent}`)
+
+		const successAlert = document.createElement('div');
+		successAlert.style.cssText = "position: absolute; top: 0; left: 0; width: 100vw; padding: 15px; border: 1px solid #d6d6d6; border-radius: 5px; background-color: #d4edda; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); text-align: left; z-index: 2;";
+		successAlert.innerHTML = "<span style='margin-right: 0; float: left;'> ✔ Copied to clipboard! </span><span style='cursor: pointer; float: right;' onclick='this.parentElement.style.display=\"none\";'>×</span>";
+		document.body.appendChild(successAlert);
+
+		setTimeout(() => {
+			document.body.removeChild(successAlert)
+		}, 3 * 1000)
+
 	})
 
 	customButton.attributes = copyElement.attributes
