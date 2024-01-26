@@ -3,16 +3,48 @@ const textToReplace = 'npm i'
 chrome.runtime.onMessage.addListener(
 	function (request, sender, sendResponse) {
 		console.log("Message received in content script:", request);
-		setTimeout(replaceCopyElement, 2 * 1000)
+		setTimeout(replaceCopyElement, 0)
 	}
 );
 
+const packageManagers = [
+	{
+		name: 'bun',
+		install: 'bun install',
+		devInstall: 'bun install -D'
+	},
+	{
+		name: 'pnpm',
+		install: 'pnpm i',
+		devInstall: 'pnpm i -D'
+	},
+	{
+		name: 'yarn',
+		install: 'yarn add',
+		devInstall: 'yarn add -D'
+	},
+	{
+		name: 'npm',
+		install: 'npm i',
+		devInstall: 'npm i -D'
+	}
+]
 
-function changeText(htmlElement, installText, devInstallText) {
+
+
+function changeText(htmlElement, packageName, installText = false) {
 	const children = htmlElement.children
 	const pELement = children[children.length - 1].children
 	const codeElement = pELement[0]
-	codeElement.textContent = codeElement.textContent.replace(textToReplace, `${installText} `)
+
+	if (installText) {
+		codeElement.textContent = codeElement.textContent.replace(textToReplace, `${installText} `)
+	} else {
+		const regex = packageManagers.map(manager => manager.install).join('|')
+		const textContent = codeElement.textContent.split(new RegExp(regex))
+		codeElement.textContent = codeElement.textContent.replace(textContent[textContent.length - 1], ` ${packageName}`)
+	}
+
 	return htmlElement
 }
 
@@ -48,30 +80,14 @@ function addCustomCopyButton(htmlElement) {
 	return htmlElement
 }
 
-const packageManagers = [
-	{
-		name: 'bun',
-		install: 'bun install',
-		devInstall: 'bun install -D'
-	},
-	{
-		name: 'pnpm',
-		install: 'pnpm i',
-		devInstall: 'pnpm i -D'
-	},
-	{
-		name: 'yarn',
-		install: 'yarn add',
-		devInstall: 'yarn add -D'
-	},
-	{
-		name: 'npm',
-		install: 'npm i',
-		devInstall: 'npm i -D'
-	}
-]
-
 function replaceCopyElement(isFirstCall = false) {
+
+	const packageName = window.location.href.replace(`${window.location.protocol}//${window.location.host}/package/`, '')
+
+	if (!packageName) {
+		return
+	}
+
 	const labelText = '[aria-label="Copy install command line"]'
 	const copyElement = document.querySelector(labelText)
 
@@ -80,14 +96,26 @@ function replaceCopyElement(isFirstCall = false) {
 	}
 	const parentElementOfCopyElement = copyElement?.parentElement?.parentElement
 
-	for (let i = 0; i < packageManagers.length; i += 1) {
-		const manager = packageManagers[i]
+	const allCopyElements = document.querySelectorAll(labelText)
 
-		const clonedElement = parentElementOfCopyElement.cloneNode(true)
-		parentElementOfCopyElement.parentNode.insertBefore(changeText(addCustomCopyButton(clonedElement), manager.install, manager.devInstall), parentElementOfCopyElement.nextSibling)
+	if (allCopyElements.length < packageManagers.length) {
+		for (let i = 0; i < packageManagers.length; i += 1) {
+			const manager = packageManagers[i]
+
+			const clonedElement = parentElementOfCopyElement.cloneNode(true)
+			parentElementOfCopyElement.parentNode.insertBefore(changeText(addCustomCopyButton(clonedElement), packageName, manager.install), parentElementOfCopyElement.nextSibling)
+		}
+		parentElementOfCopyElement.remove()
+	} else {
+		console.log(allCopyElements.length)
+		for (let i = 0; i < allCopyElements.length; i += 1) {
+			const element = allCopyElements[i].parentElement.parentElement
+			const updatedElement = changeText(element, packageName)
+			element.replaceWith(updatedElement)
+		}
 	}
 
-	parentElementOfCopyElement.remove()
+
 
 }
 
