@@ -7,11 +7,12 @@
 		"default_popup": "popup.html"
 	},
 	"background": {
-		"service_worker": "background.js"
+		"service_worker": "./js/background.js"
 	},
 	"permissions": [
 		"activeTab",
-		"webRequest"
+		"webRequest",
+		"tabs"
 	],
 	"host_permissions": [
 		"*://*.npmjs.com/*"
@@ -22,7 +23,7 @@
 				"<all_urls>"
 			],
 			"js": [
-				"content.js"
+				"./js/content.js"
 			]
 		}
 	]
