@@ -25,6 +25,14 @@ Once PackageFlex is installed:
 5. Choose your preferred package manager (npm, yarn, pnpm, or bun).
 6. Click the "Copy" button next to the install command to copy it to your clipboard.
 
+### Before
+
+!["WITHOUT CHROME EXTENSION 😭"](images/before.webp)
+
+### After
+
+!["WITH CHROME EXTENSION 😎"](images/after.webp)
+
 ## Issues and Contributions
 
 If you encounter any issues or have suggestions for improvement, feel free to open an issue or create a pull request on the [GitHub repository](https://github.com/bhumit070/PackageFlex).
