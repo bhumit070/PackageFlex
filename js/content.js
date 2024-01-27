@@ -90,7 +90,7 @@ function addCustomCopyButton(htmlElement) {
 
 function replaceCopyElement(isFirstCall = false) {
 
-	const packageName = window.location.href.replace(`${window.location.protocol}//${window.location.host}/package/`, '')
+	const packageName = window.location.href.replace(`${window.location.protocol}//${window.location.host}/package/`, '').replace(window.location.hash, '').replace(window.location.search, '')
 
 	if (!packageName) {
 		return
