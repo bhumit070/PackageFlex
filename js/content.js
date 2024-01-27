@@ -9,7 +9,7 @@ chrome.runtime.onMessage.addListener(
 const packageManagers = [
 	{
 		name: 'bun',
-		install: 'bun install',
+		install: 'bun i',
 		devInstall: 'bun install -D'
 	},
 	{
@@ -38,22 +38,35 @@ function changeText(htmlElement, packageName, installText = false) {
 
 	if (installText) {
 		codeElement.textContent = codeElement.textContent.replace(textToReplace, `${installText} `)
-	} else {
-		const regex = packageManagers.map(manager => manager.install).join('|')
-		const textContent = codeElement.textContent.split(new RegExp(regex))
-		codeElement.textContent = codeElement.textContent.replace(textContent[textContent.length - 1], ` ${packageName}`)
+		return htmlElement
 	}
 
-	return htmlElement
+	const packageManagerName = codeElement.getAttribute('name')
+	if (packageManagerName) {
+		const manager = packageManagers.find(manager => manager.name === packageManagerName)
+		if (manager) {
+			codeElement.textContent = `${manager.install} ${packageName}`
+		}
+		return htmlElement
+	}
+
+	// just in case above if does not work :)
+	const regex = packageManagers.map(manager => manager.install).join('|')
+	const textContent = codeElement.textContent.split(new RegExp(regex))
+	codeElement.textContent = codeElement.textContent.replace(textContent[textContent.length - 1], ` ${packageName}`)
+
+	return html
 }
 
-function addCustomCopyButton(htmlElement) {
+
+function addCustomCopyButton(htmlElement, packageManagerName) {
 
 	const children = htmlElement.children
 
 	const pELement = children[children.length - 1].children
 	const copyElement = pELement[1]
 	const codeElement = pELement[0]
+	codeElement.setAttribute('name', packageManagerName)
 
 	const customButton = document.createElement('button')
 	customButton.addEventListener('click', () => {
@@ -111,7 +124,7 @@ function replaceCopyElement(isFirstCall = false) {
 			const manager = packageManagers[i]
 
 			const clonedElement = parentElementOfCopyElement.cloneNode(true)
-			parentElementOfCopyElement.parentNode.insertBefore(changeText(addCustomCopyButton(clonedElement), packageName, manager.install), parentElementOfCopyElement.nextSibling)
+			parentElementOfCopyElement.parentNode.insertBefore(changeText(addCustomCopyButton(clonedElement, manager.name), packageName, manager.install), parentElementOfCopyElement.nextSibling)
 		}
 		parentElementOfCopyElement.remove()
 	} else {
