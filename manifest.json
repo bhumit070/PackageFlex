@@ -26,5 +26,11 @@
 				"./js/content.js"
 			]
 		}
-	]
+	],
+	"icons": {
+		"16": "./icons/iconSm-16x16px.png",
+		"32": "./icons/iconMd-32x32px.png",
+		"48": "./icons/iconLg-48x48px.png",
+		"128": "./icons/spotlight-120x120px.png"
+	}
 }
