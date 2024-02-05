@@ -10,7 +10,6 @@
 		"service_worker": "./js/background.js"
 	},
 	"permissions": [
-		"activeTab",
 		"webRequest",
 		"tabs"
 	],
@@ -20,7 +19,7 @@
 	"content_scripts": [
 		{
 			"matches": [
-				"<all_urls>"
+				"*://*.npmjs.com/*"
 			],
 			"js": [
 				"./js/content.js"
@@ -28,9 +27,9 @@
 		}
 	],
 	"icons": {
-		"16": "./icons/iconSm-16x16px.png",
-		"32": "./icons/iconMd-32x32px.png",
-		"48": "./icons/iconLg-48x48px.png",
-		"128": "./icons/spotlight-120x120px.png"
+		"16": "./icons/16PX-07.png",
+		"32": "./icons/32PX-08.png",
+		"48": "./icons/48PX-09.png",
+		"128": "./icons/128PX-04.png"
 	}
 }
