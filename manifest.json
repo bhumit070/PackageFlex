@@ -10,8 +10,7 @@
 		"service_worker": "./js/background.js"
 	},
 	"permissions": [
-		"webRequest",
-		"tabs"
+		"webRequest"
 	],
 	"host_permissions": [
 		"*://*.npmjs.com/*"
