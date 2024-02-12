@@ -2,6 +2,8 @@
 
 PackageFlex is a Chrome extension that enhances your npm website experience by providing additional options for copying install commands in various package managers for JavaScript libraries. With PackageFlex, you can easily copy install commands for npm, yarn, pnpm, and bun directly from the npm website.
 
+[![Available on chrome web store](https://user-images.githubusercontent.com/585534/107280622-91a8ea80-6a26-11eb-8d07-77c548b28665.png)](https://chromewebstore.google.com/detail/packageflex/kikhkjfhchalgdhdjfjjimlgbipmhlci)
+
 ## Features
 
 - **Expanded Install Options:** Adds support for copying install commands in npm, yarn, pnpm, and bun.
