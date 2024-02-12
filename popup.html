@@ -2,12 +2,24 @@
 <html>
 <head>
   <title>Redirect Extension Popup</title>
-    <meta http-equiv="Content-Security-Policy" content="script-src 'nonce-random123'">
 </head>
 <body>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+  }
 
-<button style="padding: 10px 20px; background-color: #0366d6; color: #ffffff; border: none; border-radius: 5px; font-size: 16px;">
-    <a href="https://github.com/bhumit070/PackageFlex" style="text-decoration: none; color: #ffffff;" target="_blank">Visit GitHub</a>
+  body {
+    min-height: 100px;
+    min-width: 100px;
+  }
+</style>
+
+<button id="redirect-to-github" style="height: 100px; width: 100px; background-color: #0366d6; color: #ffffff; border: none; border-radius: 5px; font-size: 16px; cursor: pointer;">
+    Visit GitHub
 </button>
+
+  <script src="./js/popup.js"> </script>
 </body>
 </html>
